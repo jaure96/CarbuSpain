@@ -1,17 +1,23 @@
 import React from 'react';
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import TabNavigator from './src/routes/TabNavigator';
 import PetrolProvider from './src/provider/PetrolProvider';
+import PermissionsProvider from './src/provider/PermissionsProvider';
+import Navigator from './src/routes/StackNavigator';
 
 const AppState = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
-  return <PetrolProvider>{children}</PetrolProvider>;
+  return (
+    <PermissionsProvider>
+      <PetrolProvider>{children}</PetrolProvider>
+    </PermissionsProvider>
+  );
 };
 
 const App = () => {
   return (
     <NavigationContainer>
       <AppState>
-        <TabNavigator />
+        <Navigator />
       </AppState>
     </NavigationContainer>
   );

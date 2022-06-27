@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import api from '../api/apiConfig';
 import PetrolContext from '../context/PetrolContext';
 import { GasStationData } from '../types/PetrolContext';
@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const PetrolProvider = React.memo(({ children }: Props) => {
+const PetrolProvider = memo(({ children }: Props) => {
   const [status, setStatus] = useState<ReqStatus>(ReqStatus.pending);
   const [gasStationData, setGasStationData] = useState<GasStationData | null>(
     null
@@ -27,7 +27,7 @@ const PetrolProvider = React.memo(({ children }: Props) => {
   };
 
   useEffect(() => {
-    retrieveData();
+    //retrieveData();
   }, []);
 
   return (
