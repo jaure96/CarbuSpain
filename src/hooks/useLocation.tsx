@@ -24,15 +24,19 @@ const useLocation = () => {
   }, []);
 
   useEffect(() => {
-    getCurrentLocation().then((location) => {
-      if (!isMounted.current) {
-        return;
-      }
-      setInitialPosition(location);
-      setUserLocation(location);
-      setRouteLines((routes) => [...routes, location]);
-      setHasLocation(true);
-    });
+    getCurrentLocation()
+      .then((location) => {
+        if (!isMounted.current) {
+          return;
+        }
+        setInitialPosition(location);
+        setUserLocation(location);
+        setRouteLines((routes) => [...routes, location]);
+        setHasLocation(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   const getCurrentLocation = (): Promise<Location> => {
@@ -45,7 +49,7 @@ const useLocation = () => {
           });
         },
         (err) => reject({ err }),
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true, timeout: 5000 }
       );
     });
   };
