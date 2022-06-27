@@ -34,8 +34,8 @@ const useLocation = () => {
         setRouteLines((routes) => [...routes, location]);
         setHasLocation(true);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        setHasLocation(false);
       });
   }, []);
 
