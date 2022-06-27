@@ -1,11 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './src/routes/TabNavigator';
+import PetrolProvider from './src/provider/PetrolProvider';
+
+const AppState = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+  return <PetrolProvider>{children}</PetrolProvider>;
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-      <TabNavigator />
+      <AppState>
+        <TabNavigator />
+      </AppState>
     </NavigationContainer>
   );
 };

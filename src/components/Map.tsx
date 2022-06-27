@@ -5,6 +5,8 @@ import MapView from 'react-native-maps';
 const Map = () => {
   return (
     <MapView
+      loadingEnabled={true}
+      loadingIndicatorColor={'tomato'}
       style={styles.map}
       region={{
         latitude: 37.78825,

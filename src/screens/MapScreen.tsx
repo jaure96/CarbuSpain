@@ -15,6 +15,5 @@ export default MapScreen;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'red',
   },
 });
