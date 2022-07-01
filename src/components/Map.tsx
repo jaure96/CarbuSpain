@@ -13,6 +13,10 @@ const Map = () => {
   const { hasLocation, initialPosition, userLocation, getCurrentLocation } =
     useLocation();
   const [region, setRegion] = useState<Location>(initialPosition);
+  const [delta, setDelta] = useState({
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  });
 
   const {
     filteredData: { ListaEESSPrecio: gasStations },
@@ -27,13 +31,10 @@ const Map = () => {
 
   useEffect(() => {
     if (hasLocation) {
+      setDelta({ latitudeDelta: 0.015, longitudeDelta: 0.0121 });
       setRegion(userLocation);
     }
   }, [userLocation, hasLocation]);
-
-  if (!hasLocation) {
-    return <LoadingScreen />;
-  }
 
   return (
     <>
@@ -47,15 +48,9 @@ const Map = () => {
         style={styles.map}
         showsUserLocation
         showsMyLocationButton={false}
-        initialRegion={{
-          ...initialPosition,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
         region={{
           ...region,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
+          ...delta,
         }}
       >
         {gasStations.map((gasStation) => {

@@ -7,8 +7,8 @@ const useLocation = () => {
   const [routeLines, setRouteLines] = useState<Location[]>([]);
   const [hasLocation, setHasLocation] = useState(false);
   const [initialPosition, setInitialPosition] = useState<Location>({
-    latitude: 0,
-    longitude: 0,
+    latitude: 40.416729,
+    longitude: -3.703339,
   });
   const [userLocation, setUserLocation] = useState<Location>({
     latitude: 0,

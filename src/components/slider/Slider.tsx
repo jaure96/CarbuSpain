@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import CustomLabel from './CustomLabel';
 
@@ -45,10 +46,16 @@ const Slider = ({
       snapped
       enableLabel={true}
       customLabel={CustomLabel}
-      selectedStyle={{ backgroundColor: 'tomato' }}
-      markerStyle={{ backgroundColor: 'tomato' }}
+      selectedStyle={styles.sliderColor}
+      markerStyle={styles.sliderColor}
     />
   );
 };
 
 export default Slider;
+
+const styles = StyleSheet.create({
+  sliderColor: {
+    backgroundColor: 'tomato',
+  },
+});
