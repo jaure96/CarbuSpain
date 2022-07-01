@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
@@ -6,10 +6,14 @@ import LoadingScreen from '../screens/LoadingScreen';
 import Fab from './Fab';
 import PetrolContext from '../context/PetrolContext';
 import { PetrolDataKeys } from '../types/Petrol';
+import Location from '../types/Location';
 
 const Map = () => {
   const mapViewRef = useRef<MapView>();
-  const { hasLocation, initialPosition, getCurrentLocation } = useLocation();
+  const { hasLocation, initialPosition, userLocation, getCurrentLocation } =
+    useLocation();
+  const [region, setRegion] = useState<Location>(initialPosition);
+
   const {
     data: { ListaEESSPrecio: gasStations },
   } = useContext(PetrolContext);
@@ -20,6 +24,12 @@ const Map = () => {
       center: { latitude, longitude },
     });
   };
+
+  useEffect(() => {
+    if (hasLocation) {
+      setRegion(userLocation);
+    }
+  }, [userLocation, hasLocation]);
 
   if (!hasLocation) {
     return <LoadingScreen />;
@@ -32,6 +42,7 @@ const Map = () => {
         ref={(el) => (mapViewRef.current = el!)}
         toolbarEnabled={false}
         loadingEnabled={true}
+        showsBuildings={false}
         loadingIndicatorColor={'tomato'}
         style={styles.map}
         showsUserLocation
@@ -42,8 +53,7 @@ const Map = () => {
           longitudeDelta: 0.0421,
         }}
         region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          ...region,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
