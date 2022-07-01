@@ -1,6 +1,14 @@
 import React from 'react';
-import { PetrolContextProps } from '../types/PetrolContext';
+import { Filters, GasStationData } from '../types/Petrol';
+import ReqStatus from '../types/ReqStatus';
 
-const PetrolContext = React.createContext<PetrolContextProps | null>(null);
+type PetrolContextProps = {
+  status: ReqStatus;
+  data: GasStationData;
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+};
+
+const PetrolContext = React.createContext({} as PetrolContextProps);
 
 export default PetrolContext;

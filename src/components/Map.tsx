@@ -1,14 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import LoadingScreen from '../screens/LoadingScreen';
 import Fab from './Fab';
+import PetrolContext from '../context/PetrolContext';
+import { PetrolDataKeys } from '../types/Petrol';
 
 const Map = () => {
   const mapViewRef = useRef<MapView>();
-
   const { hasLocation, initialPosition, getCurrentLocation } = useLocation();
+  const {
+    data: { ListaEESSPrecio: gasStations },
+  } = useContext(PetrolContext);
 
   const centerPosition = async () => {
     const { latitude, longitude } = await getCurrentLocation();
@@ -26,6 +30,7 @@ const Map = () => {
       <Fab iconName="ios-locate" style={styles.fab} onPress={centerPosition} />
       <MapView
         ref={(el) => (mapViewRef.current = el!)}
+        toolbarEnabled={false}
         loadingEnabled={true}
         loadingIndicatorColor={'tomato'}
         style={styles.map}
@@ -42,7 +47,24 @@ const Map = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
-      />
+      >
+        {gasStations.map((gasStation) => {
+          return (
+            <Marker
+              key={gasStation[PetrolDataKeys.id_eess]}
+              coordinate={{
+                latitude: parseFloat(
+                  gasStation[PetrolDataKeys.lat].replace(',', '.')
+                ),
+                longitude: parseFloat(
+                  gasStation[PetrolDataKeys.long].replace(',', '.')
+                ),
+              }}
+              title={gasStation[PetrolDataKeys.sign]}
+            />
+          );
+        })}
+      </MapView>
     </>
   );
 };

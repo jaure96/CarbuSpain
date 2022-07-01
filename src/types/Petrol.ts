@@ -1,5 +1,3 @@
-import ReqStatus from './ReqStatus';
-
 export enum PetrolDataKeys {
   cp = 'C.P.',
   direction = 'Dirección',
@@ -37,10 +35,9 @@ export enum PetrolDataKeys {
 
 export interface GasStationData {
   Fecha: string;
-  ListaEESSPrecio: { [key in keyof typeof PetrolDataKeys]: string }[];
+  ListaEESSPrecio: { [key: string]: string }[];
 }
 
-export interface PetrolContextProps {
-  status: ReqStatus;
-  data: GasStationData | null;
+export interface Filters {
+  radio: number;
 }
