@@ -6,7 +6,7 @@ type PetrolContextProps = {
   status: ReqStatus;
   data: GasStationData;
   filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  setFilters: (filters: Filters) => void;
 };
 
 const PetrolContext = React.createContext({} as PetrolContextProps);

@@ -24,9 +24,9 @@ const PetrolProvider = memo(({ children }: Props) => {
   const [filters, setFilters] = useState<Filters>({ radio: 10 });
   const { hasLocation, initialPosition } = useLocation();
 
-  const saveFilters = useCallback(async () => {
+  const saveFilters = useCallback(async (fltrs: Filters) => {
     try {
-      const { radio } = filters;
+      const { radio } = fltrs;
       await AsyncStorage.setItem('@filters_radio', radio.toString());
     } catch (error) {}
   }, []);
@@ -38,6 +38,11 @@ const PetrolProvider = memo(({ children }: Props) => {
         setFilters((prev) => ({ ...prev, radio: parseFloat(r) }));
       }
     } catch (error) {}
+  }, []);
+
+  const handleSetFilters = useCallback((fltrs: Filters) => {
+    saveFilters(fltrs);
+    setFilters(fltrs);
   }, []);
 
   const retrieveData = useCallback(async () => {
@@ -66,9 +71,6 @@ const PetrolProvider = memo(({ children }: Props) => {
   useEffect(() => {
     getFilters();
     filtersFetched.current = true;
-    return () => {
-      saveFilters();
-    };
   }, []);
 
   useEffect(() => {
@@ -84,7 +86,12 @@ const PetrolProvider = memo(({ children }: Props) => {
 
   return (
     <PetrolContext.Provider
-      value={{ data: gasStationData, status, filters, setFilters }}
+      value={{
+        data: gasStationData,
+        status,
+        filters,
+        setFilters: handleSetFilters,
+      }}
     >
       {children}
     </PetrolContext.Provider>
