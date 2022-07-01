@@ -18,8 +18,8 @@ const initialData: GasStationData = {
 
 const PetrolProvider = memo(({ children }: Props) => {
   const [status, setStatus] = useState<ReqStatus>(ReqStatus.pending);
-  const [gasStationData, setGasStationData] =
-    useState<GasStationData>(initialData);
+  const [allData, setAllData] = useState<GasStationData>(initialData);
+  const [filteredData, setFilteredData] = useState<GasStationData>(initialData);
   const filtersFetched = useRef(false);
   const [filters, setFilters] = useState<Filters>({ radio: 10 });
   const { hasLocation, initialPosition } = useLocation();
@@ -49,24 +49,12 @@ const PetrolProvider = memo(({ children }: Props) => {
     try {
       setStatus(ReqStatus.pending);
       const resp = await api.get<GasStationData>('/');
-      const filtered = resp.data.ListaEESSPrecio.filter((f) => {
-        const c = raidusFilter(
-          initialPosition,
-          {
-            latitude: parseFloat(f[PetrolDataKeys.lat].replace(',', '.')),
-            longitude: parseFloat(f[PetrolDataKeys.long].replace(',', '.')),
-          },
-          filters.radio
-        );
-        return c;
-      });
-      setGasStationData({ ...resp.data, ListaEESSPrecio: filtered });
+      setAllData(resp.data);
       setStatus(ReqStatus.fulfilled);
     } catch (error) {
-      setGasStationData(initialData);
       setStatus(ReqStatus.rejected);
     }
-  }, [filters, initialPosition]);
+  }, []);
 
   useEffect(() => {
     getFilters();
@@ -84,10 +72,26 @@ const PetrolProvider = memo(({ children }: Props) => {
     }
   }, [hasLocation, initialPosition, filters, retrieveData]);
 
+  useEffect(() => {
+    const filtered = allData.ListaEESSPrecio.filter((f) => {
+      const c = raidusFilter(
+        initialPosition,
+        {
+          latitude: parseFloat(f[PetrolDataKeys.lat].replace(',', '.')),
+          longitude: parseFloat(f[PetrolDataKeys.long].replace(',', '.')),
+        },
+        filters.radio
+      );
+      return c;
+    });
+    setFilteredData({ ...allData, ListaEESSPrecio: filtered });
+  }, [filters, allData]);
+
   return (
     <PetrolContext.Provider
       value={{
-        data: gasStationData,
+        allData,
+        filteredData,
         status,
         filters,
         setFilters: handleSetFilters,

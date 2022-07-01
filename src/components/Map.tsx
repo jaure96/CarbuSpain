@@ -15,7 +15,7 @@ const Map = () => {
   const [region, setRegion] = useState<Location>(initialPosition);
 
   const {
-    data: { ListaEESSPrecio: gasStations },
+    filteredData: { ListaEESSPrecio: gasStations },
   } = useContext(PetrolContext);
 
   const centerPosition = async () => {

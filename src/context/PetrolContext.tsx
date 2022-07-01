@@ -4,7 +4,8 @@ import ReqStatus from '../types/ReqStatus';
 
 type PetrolContextProps = {
   status: ReqStatus;
-  data: GasStationData;
+  allData: GasStationData;
+  filteredData: GasStationData;
   filters: Filters;
   setFilters: (filters: Filters) => void;
 };
