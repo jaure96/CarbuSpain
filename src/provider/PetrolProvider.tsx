@@ -21,7 +21,7 @@ const PetrolProvider = memo(({ children }: Props) => {
   const [gasStationData, setGasStationData] =
     useState<GasStationData>(initialData);
   const filtersFetched = useRef(false);
-  const [filters, setFilters] = useState<Filters>({ radio: 100 });
+  const [filters, setFilters] = useState<Filters>({ radio: 10 });
   const { hasLocation, initialPosition } = useLocation();
 
   const saveFilters = useCallback(async () => {
