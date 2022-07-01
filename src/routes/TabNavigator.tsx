@@ -15,9 +15,9 @@ const TabNavigator = () => {
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: string = '';
-          if (route.name === 'Map') {
+          if (route.name === 'Mapa') {
             iconName = focused ? 'ios-map' : 'ios-map-outline';
-          } else if (route.name === 'Settings') {
+          } else if (route.name === 'Filtros') {
             iconName = focused ? 'ios-options' : 'ios-options-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -26,8 +26,8 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Map" component={MapScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Mapa" component={MapScreen} />
+      <Tab.Screen name="Filtros" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };
