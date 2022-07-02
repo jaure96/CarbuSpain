@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import PetrolFilter from '../components/PetrolFilter';
 import Slider from '../components/slider';
 import PetrolContext from '../context/PetrolContext';
 
@@ -15,8 +16,8 @@ const SettingsScreen = () => {
       >
         <View style={styles.filtersContainer}>
           <View style={styles.row}>
-            <Text>Filtrar por distancia(km):</Text>
-            <View style={styles.slidercontainer}>
+            <Text style={styles.filterBlockTitle}>Distancia (km)</Text>
+            <View style={styles.filter}>
               <Slider
                 width={width * 0.8}
                 onValuesChange={(values) =>
@@ -29,6 +30,12 @@ const SettingsScreen = () => {
                 disableScroll={() => setScrollEnabled(false)}
                 enableScroll={() => setScrollEnabled(true)}
               />
+            </View>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.filterBlockTitle}>Carburantes</Text>
+            <View style={styles.filter}>
+              <PetrolFilter />
             </View>
           </View>
         </View>
@@ -56,12 +63,19 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'column',
   },
-  slidercontainer: {
+  filter: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   slider: {
     color: 'tomato',
+  },
+  filterBlockTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: 'black',
+    borderBottomWidth: 2,
+    borderBottomColor: 'rgba(0,0,0,0.7)',
   },
 });
