@@ -2,13 +2,16 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
-import LoadingScreen from '../screens/LoadingScreen';
 import Fab from './Fab';
 import PetrolContext from '../context/PetrolContext';
 import { PetrolDataKeys } from '../types/Petrol';
 import Location from '../types/Location';
 
-const Map = () => {
+type Props = {
+  onMarkerClick: (gasStation: { [key: string]: string }) => void;
+};
+
+const Map = ({ onMarkerClick }: Props) => {
   const mapViewRef = useRef<MapView>();
   const { hasLocation, initialPosition, userLocation, getCurrentLocation } =
     useLocation();
@@ -66,6 +69,7 @@ const Map = () => {
                 ),
               }}
               title={gasStation[PetrolDataKeys.sign]}
+              onPress={() => onMarkerClick(gasStation)}
             />
           );
         })}

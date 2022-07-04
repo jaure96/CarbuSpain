@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MapScreen from '../screens/MapScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { StyleSheet } from 'react-native';
+import StackNavigator from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +26,7 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Mapa" component={MapScreen} />
+      <Tab.Screen name="Mapa" component={StackNavigator} />
       <Tab.Screen name="Filtros" component={SettingsScreen} />
     </Tab.Navigator>
   );

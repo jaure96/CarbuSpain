@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import PetrolProvider from './src/provider/PetrolProvider';
 import PermissionsProvider from './src/provider/PermissionsProvider';
-import Navigator from './src/routes/StackNavigator';
+import PermissionNavigator from './src/routes/PermissionNavigator';
 
 const AppState = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
   return (
@@ -17,7 +17,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AppState>
-        <Navigator />
+        <PermissionNavigator />
       </AppState>
     </NavigationContainer>
   );

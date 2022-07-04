@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { StyleSheet, View } from 'react-native';
 import Map from '../components/Map';
+import { RootStackParams } from '../routes/StackNavigator';
 
-const MapScreen = () => {
+interface Props extends StackScreenProps<RootStackParams, 'MapScreen'> {}
+
+const MapScreen = ({ navigation }: Props) => {
+  const handleMarkerClick = useCallback(
+    (gasStationData: { [key: string]: string }) =>
+      navigation.navigate('InfoSreen', gasStationData),
+    [navigation]
+  );
+
   return (
     <View style={styles.mainContainer}>
-      <Map />
+      <Map onMarkerClick={handleMarkerClick} />
     </View>
   );
 };

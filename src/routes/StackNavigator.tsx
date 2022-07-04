@@ -1,34 +1,33 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import TabNavigator from './TabNavigator';
-import { PermissionsContext } from '../context/PermissionsContext ';
-import PermissionsScreen from '../screens/PermissionsScreen';
-import LoadingScreen from '../screens/LoadingScreen';
+import MapScreen from '../screens/MapScreen';
+import InfoScreen from '../screens/InfoScreen';
 
-const Stack = createStackNavigator();
-const Navigator = () => {
-  const { permissions } = useContext(PermissionsContext);
+export type RootStackParams = {
+  MapScreen: undefined;
+  InfoSreen: { [key: string]: string };
+};
 
-  if (permissions.locationStatus === 'unavailable') {
-    return <LoadingScreen />;
-  }
-
+const Stack = createStackNavigator<RootStackParams>();
+const StackNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="MapScreen"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         cardStyle: {
           backgroundColor: 'white',
         },
       }}
     >
-      {permissions.locationStatus === 'granted' ? (
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
-      ) : (
-        <Stack.Screen name="PermissionsScreen" component={PermissionsScreen} />
-      )}
+      <Stack.Screen
+        name="MapScreen"
+        options={{ headerShown: false }}
+        component={MapScreen}
+      />
+      <Stack.Screen name="InfoSreen" component={InfoScreen} />
     </Stack.Navigator>
   );
 };
 
-export default Navigator;
+export default StackNavigator;
