@@ -5,7 +5,7 @@ import InfoScreen from '../screens/InfoScreen';
 
 export type RootStackParams = {
   MapScreen: undefined;
-  InfoSreen: { [key: string]: string };
+  InfoScreen: { [key: string]: string };
 };
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -25,7 +25,7 @@ const StackNavigator = () => {
         options={{ headerShown: false }}
         component={MapScreen}
       />
-      <Stack.Screen name="InfoSreen" component={InfoScreen} />
+      <Stack.Screen name="InfoScreen" component={InfoScreen} />
     </Stack.Navigator>
   );
 };

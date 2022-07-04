@@ -9,7 +9,7 @@ interface Props extends StackScreenProps<RootStackParams, 'MapScreen'> {}
 const MapScreen = ({ navigation }: Props) => {
   const handleMarkerClick = useCallback(
     (gasStationData: { [key: string]: string }) =>
-      navigation.navigate('InfoSreen', gasStationData),
+      navigation.navigate('InfoScreen', gasStationData),
     [navigation]
   );
 

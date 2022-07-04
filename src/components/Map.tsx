@@ -68,7 +68,6 @@ const Map = ({ onMarkerClick }: Props) => {
                   gasStation[PetrolDataKeys.long].replace(',', '.')
                 ),
               }}
-              title={gasStation[PetrolDataKeys.sign]}
               onPress={() => onMarkerClick(gasStation)}
             />
           );
