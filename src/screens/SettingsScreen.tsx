@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
-import PetrolFilter from '../components/PetrolFilter';
 import Slider from '../components/slider';
 import PetrolContext from '../context/PetrolContext';
 
@@ -32,12 +31,12 @@ const SettingsScreen = () => {
               />
             </View>
           </View>
-          <View style={styles.row}>
+          {/*   <View style={styles.row}>
             <Text style={styles.filterBlockTitle}>Carburantes</Text>
             <View style={styles.filter}>
               <PetrolFilter />
             </View>
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </View>
