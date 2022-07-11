@@ -3,6 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParams } from '../routes/StackNavigator';
 import { PetrolDataKeys } from '../types/Petrol';
+import PetrolPrice from '../components/PetrolPrice';
 
 interface Props extends StackScreenProps<RootStackParams, 'InfoScreen'> {}
 
@@ -22,39 +23,83 @@ const InfoScreen = ({ navigation, route }: Props) => {
       <ScrollView contentContainerStyle={styles.scrollableContainer}>
         <View style={styles.directionContainer}>
           <Text style={styles.titleLabel}>{PetrolDataKeys.direction}</Text>
-          <Text>{gasStationData[PetrolDataKeys.cp]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.direction]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.location]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.province]}</Text>
+          <View style={styles.subContainer}>
+            <Text>{gasStationData[PetrolDataKeys.cp]}</Text>
+            <Text>{gasStationData[PetrolDataKeys.direction]}</Text>
+            <Text>{gasStationData[PetrolDataKeys.location]}</Text>
+            <Text>{gasStationData[PetrolDataKeys.province]}</Text>
+          </View>
         </View>
         <View style={styles.scheduleContainer}>
           <Text style={styles.titleLabel}>{PetrolDataKeys.schedule}</Text>
-          <Text>{gasStationData[PetrolDataKeys.schedule]}</Text>
+          <View style={styles.subContainer}>
+            <Text>{gasStationData[PetrolDataKeys.schedule]}</Text>
+          </View>
         </View>
         <View style={styles.scheduleContainer}>
           <Text style={styles.titleLabel}>Precios de carburantes</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_biodiesel]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_bioetanol]}</Text>
-          <Text>
-            {gasStationData[PetrolDataKeys.price_compressed_natural_gas]}
-          </Text>
-          <Text>
-            {gasStationData[PetrolDataKeys.price_liquefied_natural_gas]}
-          </Text>
-          <Text>
-            {gasStationData[PetrolDataKeys.price_liquefied_petroleum_gas]}
-          </Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_a]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_b]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_premiun]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_95_e10]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_95_e5]}</Text>
-          <Text>
-            {gasStationData[PetrolDataKeys.price_gasoil_95_e5_premiun]}
-          </Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_98_e10]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_gasoil_98_e5]}</Text>
-          <Text>{gasStationData[PetrolDataKeys.price_hydrogen]}</Text>
+          <View style={styles.subContainer}>
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_biodiesel]}
+              label={PetrolDataKeys.price_biodiesel}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_bioetanol]}
+              label={PetrolDataKeys.price_bioetanol}
+            />
+            <PetrolPrice
+              price={
+                gasStationData[PetrolDataKeys.price_compressed_natural_gas]
+              }
+              label={PetrolDataKeys.price_compressed_natural_gas}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_liquefied_natural_gas]}
+              label={PetrolDataKeys.price_liquefied_natural_gas}
+            />
+            <PetrolPrice
+              price={
+                gasStationData[PetrolDataKeys.price_liquefied_petroleum_gas]
+              }
+              label={PetrolDataKeys.price_liquefied_petroleum_gas}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_a]}
+              label={PetrolDataKeys.price_gasoil_a}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_b]}
+              label={PetrolDataKeys.price_gasoil_b}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_premiun]}
+              label={PetrolDataKeys.price_gasoil_premiun}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_95_e10]}
+              label={PetrolDataKeys.price_gasoil_95_e10}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_95_e5]}
+              label={PetrolDataKeys.price_gasoil_95_e5}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_95_e5_premiun]}
+              label={PetrolDataKeys.price_gasoil_95_e5_premiun}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_98_e10]}
+              label={PetrolDataKeys.price_gasoil_98_e10}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_gasoil_98_e5]}
+              label={PetrolDataKeys.price_gasoil_98_e5}
+            />
+            <PetrolPrice
+              price={gasStationData[PetrolDataKeys.price_hydrogen]}
+              label={PetrolDataKeys.price_hydrogen}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -87,6 +132,9 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 30,
   },
+  subContainer: {
+    paddingLeft: 10,
+  },
   titleLabel: {
     fontFamily: ' Tahoma, Geneva, sans-serif',
     fontSize: 17,
@@ -94,6 +142,9 @@ const styles = StyleSheet.create({
   },
   directionContainer: {},
   scheduleContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    width: '100%',
     marginTop: 10,
   },
 });
