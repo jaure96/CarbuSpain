@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParams } from '../routes/StackNavigator';
 import { PetrolDataKeys } from '../types/Petrol';
 import PetrolPrice from '../components/PetrolPrice';
+import BasicMiniMap from '../components/BasicMiniMap';
 
 interface Props extends StackScreenProps<RootStackParams, 'InfoScreen'> {}
 
@@ -101,6 +102,16 @@ const InfoScreen = ({ navigation, route }: Props) => {
             />
           </View>
         </View>
+        <View style={styles.mapContainer}>
+          <BasicMiniMap
+            latitude={parseFloat(
+              gasStationData[PetrolDataKeys.lat].replace(',', '.')
+            )}
+            longitude={parseFloat(
+              gasStationData[PetrolDataKeys.long].replace(',', '.')
+            )}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -146,5 +157,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     marginTop: 10,
+  },
+  mapContainer: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
 });
