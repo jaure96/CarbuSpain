@@ -1,4 +1,4 @@
-package com.carbuspain;
+package com.xjauregi.carbuspain;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

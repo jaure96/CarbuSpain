@@ -1,4 +1,4 @@
-package com.carbuspain.newarchitecture.modules;
+package com.xjauregi.carbuspain.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
