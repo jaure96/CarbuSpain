@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import PetrolFilter from '../components/PetrolFilter';
 import Slider from '../components/slider';
 import PetrolContext from '../context/PetrolContext';
 
@@ -31,12 +32,24 @@ const SettingsScreen = () => {
               />
             </View>
           </View>
-          {/*   <View style={styles.row}>
+          <View style={styles.row}>
             <Text style={styles.filterBlockTitle}>Carburantes</Text>
             <View style={styles.filter}>
-              <PetrolFilter />
+              <PetrolFilter label="Gasoleo A" />
+              <PetrolFilter label="Gasoleo B" />
+              <PetrolFilter label="Gasoleo Premium" />
+              <PetrolFilter label="Gasolina 95 E10" />
+              <PetrolFilter label="Gasolina 95 E5" />
+              <PetrolFilter label="Gasolina 98 E10" />
+              <PetrolFilter label="Gasolina 98 E5" />
+              <PetrolFilter label="Hidrogeno" />
+              <PetrolFilter label="Gases licuados del petróleo" />
+              <PetrolFilter label="Gas Natural Licuado" />
+              <PetrolFilter label="Gas Natural Comprimido" />
+              <PetrolFilter label="Biodiesel" />
+              <PetrolFilter label="Bioetanol" />
             </View>
-          </View> */}
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -76,5 +89,6 @@ const styles = StyleSheet.create({
     color: 'black',
     borderBottomWidth: 2,
     borderBottomColor: 'rgba(0,0,0,0.7)',
+    marginBottom: 5,
   },
 });
