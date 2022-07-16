@@ -5,7 +5,7 @@ import PetrolContext from '../context/PetrolContext';
 import useLocation from '../hooks/useLocation';
 import { Filters, GasStationData, PetrolDataKeys } from '../types/Petrol';
 import ReqStatus from '../types/ReqStatus';
-import { raidusFilter } from '../utils/distance';
+import { raidusFilter, priceFilter } from '../utils/filters';
 
 type Props = {
   children: React.ReactNode;
@@ -62,7 +62,6 @@ const PetrolProvider = memo(({ children }: Props) => {
         }
         return acc;
       }, {});
-      console.log(savedFilters);
       setFilters((prev) => ({ ...prev, ...savedFilters }));
     } catch (error) {}
   }, []);
@@ -101,7 +100,7 @@ const PetrolProvider = memo(({ children }: Props) => {
 
   useEffect(() => {
     const filtered = allData.ListaEESSPrecio.filter((f) => {
-      const c = raidusFilter(
+      const r = raidusFilter(
         initialPosition,
         {
           latitude: parseFloat(f[PetrolDataKeys.lat].replace(',', '.')),
@@ -109,7 +108,8 @@ const PetrolProvider = memo(({ children }: Props) => {
         },
         filters.radio
       );
-      return c;
+      const p = priceFilter(f, filters);
+      return r && p;
     });
     setFilteredData({ ...allData, ListaEESSPrecio: filtered });
   }, [filters, allData]);
