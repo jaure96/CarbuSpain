@@ -16,25 +16,45 @@ const PetrolFilter = ({
 
   const handleUpdatePrice = useCallback(
     (value: string) => {
-      setPrice(value);
+      let newPrice = value;
+      if (newPrice.includes('.')) {
+        newPrice = newPrice.replace('.', ',');
+      }
+      if (newPrice.startsWith(',')) {
+        newPrice = newPrice.replace(',', '');
+      }
+      if ((newPrice.match(/,/g) || []).length > 1) {
+        newPrice = newPrice.slice(0, -1);
+      }
+
+      setPrice(newPrice);
       if (onValueChange != null) {
-        onValueChange(Number(price));
+        onValueChange(Number(newPrice));
       }
     },
-    [onValueChange, price]
+    [onValueChange]
   );
+
+  const handleBlur = useCallback(() => {
+    if (price.endsWith(',')) {
+      setPrice(price.replace(',', ''));
+    }
+    if (price.length === 0) {
+      setPrice('0');
+    }
+  }, [price]);
 
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.label}>{label}</Text>
-
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           onChangeText={handleUpdatePrice}
           value={price}
-          placeholder="Precio maximo"
           keyboardType="numeric"
+          maxLength={5}
+          onBlur={handleBlur}
         />
         <Text style={{ ...styles.label, ...styles.euroLabel }}> €</Text>
       </View>
