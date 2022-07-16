@@ -16,27 +16,54 @@ const initialData: GasStationData = {
   ListaEESSPrecio: [],
 };
 
+const defaultFilters: Filters = {
+  radio: 10,
+  price_biodiesel: 3,
+  price_bioetanol: 3,
+  price_compressed_natural_gas: 3,
+  price_liquefied_natural_gas: 3,
+  price_liquefied_petroleum_gas: 3,
+  price_gasoil_a: 3,
+  price_gasoil_b: 3,
+  price_gasoil_premiun: 3,
+  price_gasoil_95_e10: 3,
+  price_gasoil_95_e5: 3,
+  price_gasoil_95_e5_premiun: 3,
+  price_gasoil_98_e10: 3,
+  price_gasoil_98_e5: 3,
+  price_hydrogen: 3,
+};
+
 const PetrolProvider = memo(({ children }: Props) => {
   const [status, setStatus] = useState<ReqStatus>(ReqStatus.pending);
   const [allData, setAllData] = useState<GasStationData>(initialData);
   const [filteredData, setFilteredData] = useState<GasStationData>(initialData);
   const filtersFetched = useRef(false);
-  const [filters, setFilters] = useState<Filters>({ radio: 10 });
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
   const { hasLocation, initialPosition } = useLocation();
 
   const saveFilters = useCallback(async (fltrs: Filters) => {
     try {
-      const { radio } = fltrs;
-      await AsyncStorage.setItem('@filters_radio', radio.toString());
+      Object.entries(fltrs).forEach(async ([fKey, fVal]) => {
+        await AsyncStorage.setItem(`@filters_${fKey}`, fVal.toString());
+      });
     } catch (error) {}
   }, []);
 
   const getFilters = useCallback(async () => {
     try {
-      const r = await AsyncStorage.getItem('@filters_radio');
-      if (r !== null) {
-        setFilters((prev) => ({ ...prev, radio: parseFloat(r) }));
-      }
+      const keys = await AsyncStorage.getAllKeys();
+      const result = await AsyncStorage.multiGet(keys);
+      const savedFilters = result.reduce<any>((acc, val) => {
+        if (val[1] != null) {
+          const filterKey = val[0].replace('@filters_', '');
+          const filterVal = parseFloat(val[1]);
+          acc[filterKey] = filterVal;
+        }
+        return acc;
+      }, {});
+      console.log(savedFilters);
+      setFilters((prev) => ({ ...prev, ...savedFilters }));
     } catch (error) {}
   }, []);
 
@@ -70,7 +97,7 @@ const PetrolProvider = memo(({ children }: Props) => {
     ) {
       retrieveData();
     }
-  }, [hasLocation, initialPosition, filters, retrieveData]);
+  }, [hasLocation, initialPosition, retrieveData]);
 
   useEffect(() => {
     const filtered = allData.ListaEESSPrecio.filter((f) => {

@@ -1,39 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 type Props = {
   label: string;
-  onValueChange?: (value: number) => void;
-  defaultPriceLimit?: number;
+  filterKey: string;
+  onValueChange?: (value: number, filterKey: string) => void;
+  defaultPriceLimit: number;
 };
 
 const PetrolFilter = ({
   label,
-  defaultPriceLimit = 3,
+  filterKey,
+  defaultPriceLimit,
   onValueChange,
 }: Props) => {
   const [price, setPrice] = useState(`${defaultPriceLimit}`);
 
-  const handleUpdatePrice = useCallback(
-    (value: string) => {
-      let newPrice = value;
-      if (newPrice.includes('.')) {
-        newPrice = newPrice.replace('.', ',');
-      }
-      if (newPrice.startsWith(',')) {
-        newPrice = newPrice.replace(',', '');
-      }
-      if ((newPrice.match(/,/g) || []).length > 1) {
-        newPrice = newPrice.slice(0, -1);
-      }
-
-      setPrice(newPrice);
-      if (onValueChange != null) {
-        onValueChange(Number(newPrice));
-      }
-    },
-    [onValueChange]
-  );
+  const handleUpdatePrice = useCallback((value: string) => {
+    let newPrice = value;
+    if (newPrice.includes('.')) {
+      newPrice = newPrice.replace('.', ',');
+    }
+    if (newPrice.startsWith(',')) {
+      newPrice = newPrice.replace(',', '');
+    }
+    if ((newPrice.match(/,/g) || []).length > 1) {
+      newPrice = newPrice.slice(0, -1);
+    }
+    setPrice(newPrice);
+  }, []);
 
   const handleBlur = useCallback(() => {
     if (price.endsWith(',')) {
@@ -43,6 +38,13 @@ const PetrolFilter = ({
       setPrice('0');
     }
   }, [price]);
+
+  useEffect(() => {
+    const numericValue = Number(price.replace(',', '.'));
+    if (onValueChange != null && !isNaN(numericValue)) {
+      onValueChange(numericValue, filterKey);
+    }
+  }, [filterKey, onValueChange, price]);
 
   return (
     <View style={styles.mainContainer}>
