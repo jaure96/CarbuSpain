@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 import { PermissionsContext } from '../context/PermissionsContext ';
-import PermissionsScreen from '../screens/PermissionsScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 
 const Stack = createStackNavigator();
 const Navigator = () => {
-  const { permissions } = useContext(PermissionsContext);
+  const {
+    locationEnabled,
+    permissions: { locationStatus },
+  } = useContext(PermissionsContext);
 
-  if (permissions.locationStatus === 'unavailable') {
-    return <LoadingScreen />;
-  }
+  console.log({ locationStatus, locationEnabled });
 
   return (
     <Stack.Navigator
@@ -22,10 +22,10 @@ const Navigator = () => {
         },
       }}
     >
-      {permissions.locationStatus === 'granted' ? (
+      {locationStatus === 'granted' && locationEnabled ? (
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       ) : (
-        <Stack.Screen name="PermissionsScreen" component={PermissionsScreen} />
+        <Stack.Screen name="PermissionsScreen" component={LoadingScreen} />
       )}
     </Stack.Navigator>
   );

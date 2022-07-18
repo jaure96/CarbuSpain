@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
   check,
   openSettings,
@@ -11,6 +11,7 @@ import {
   PermissionsContext,
   PermissionsState,
 } from '../context/PermissionsContext ';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 type Props = {
   children: React.ReactNode;
@@ -22,14 +23,17 @@ const permissionInitState: PermissionsState = {
 
 const PermissionsProvider = memo(({ children }: Props) => {
   const [permissions, setPermissions] = useState(permissionInitState);
+  const [locationEnabled, setLocationEnabled] = useState(false);
 
   useEffect(() => {
     checkLocationPermissions();
+    askLocationEnabler();
     AppState.addEventListener('change', (state) => {
       if (state !== 'active') {
         return;
       }
       checkLocationPermissions();
+      askLocationEnabler();
     });
   }, []);
 
@@ -52,6 +56,21 @@ const PermissionsProvider = memo(({ children }: Props) => {
     });
   };
 
+  const askLocationEnabler = useCallback(() => {
+    if (Platform.OS === 'android') {
+      RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+        interval: 10000,
+        fastInterval: 5000,
+      })
+        .then(() => {
+          setLocationEnabled(true);
+        })
+        .catch(() => {
+          setLocationEnabled(false);
+        });
+    }
+  }, [locationEnabled]);
+
   const checkLocationPermissions = async () => {
     let permissionStatus: PermissionStatus;
     if (Platform.OS === 'ios') {
@@ -59,18 +78,27 @@ const PermissionsProvider = memo(({ children }: Props) => {
     } else {
       permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
     }
+    console.log(permissionStatus);
     setPermissions({
       ...permissions,
       locationStatus: permissionStatus,
     });
   };
 
+  useEffect(() => {
+    if (!locationEnabled) {
+      askLocationEnabler();
+    }
+    if (permissions.locationStatus !== 'granted') {
+      askLocationPermissions();
+    }
+  }, [permissions, locationEnabled]);
+
   return (
     <PermissionsContext.Provider
       value={{
         permissions,
-        askLocationPermissions,
-        checkLocationPermissions,
+        locationEnabled,
       }}
     >
       {children}

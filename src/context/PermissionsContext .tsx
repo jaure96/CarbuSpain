@@ -7,8 +7,7 @@ export interface PermissionsState {
 
 type PermissionsContextProps = {
   permissions: PermissionsState;
-  askLocationPermissions: () => void;
-  checkLocationPermissions: () => void;
+  locationEnabled: boolean;
 };
 
 export const PermissionsContext = createContext({} as PermissionsContextProps);
