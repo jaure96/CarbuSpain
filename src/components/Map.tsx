@@ -56,10 +56,10 @@ const Map = ({ onMarkerClick }: Props) => {
           ...delta,
         }}
       >
-        {gasStations.map((gasStation) => {
+        {gasStations.map((gasStation, i) => {
           return (
             <Marker
-              key={gasStation[PetrolDataKeys.id_eess]}
+              key={i}
               coordinate={{
                 latitude: parseFloat(
                   gasStation[PetrolDataKeys.lat].replace(',', '.')
@@ -69,6 +69,7 @@ const Map = ({ onMarkerClick }: Props) => {
                 ),
               }}
               onPress={() => onMarkerClick(gasStation)}
+              pinColor={gasStation.color}
             />
           );
         })}

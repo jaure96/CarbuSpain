@@ -1,11 +1,14 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import chroma from 'chroma-js';
 import api from '../api/apiConfig';
 import PetrolContext from '../context/PetrolContext';
 import useLocation from '../hooks/useLocation';
 import { Filters, GasStationData, PetrolDataKeys } from '../types/Petrol';
 import ReqStatus from '../types/ReqStatus';
 import { raidusFilter, priceFilter } from '../utils/filters';
+
+const favKey = PetrolDataKeys.price_gasoil_a;
 
 type Props = {
   children: React.ReactNode;
@@ -111,7 +114,24 @@ const PetrolProvider = memo(({ children }: Props) => {
       const p = priceFilter(f, filters);
       return r && p;
     });
-    setFilteredData({ ...allData, ListaEESSPrecio: filtered });
+    const palette = chroma
+      .scale(['#008000', '#ff0000'])
+      .mode('lch')
+      .colors(filtered.length);
+
+    const filteredPalette = filtered
+      .sort((a: { [key: string]: string }, b: { [key: string]: string }) => {
+        if (a[favKey] === '' || b[favKey] === '') {
+          return 0;
+        }
+        return a[favKey].localeCompare(b[favKey]);
+      })
+      .map((gasStation, i) => ({
+        ...gasStation,
+        color: palette.length === 1 ? '#008000' : palette[i],
+      }));
+
+    setFilteredData({ ...allData, ListaEESSPrecio: filteredPalette });
   }, [filters, allData]);
 
   return (

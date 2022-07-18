@@ -5,8 +5,9 @@ import MapView, { Marker } from 'react-native-maps';
 interface Props {
   latitude: number;
   longitude: number;
+  color: string;
 }
-const BasicMiniMap = ({ latitude, longitude }: Props) => {
+const BasicMiniMap = ({ latitude, longitude, color }: Props) => {
   const [isMapReady, setIsMapReady] = useState(false);
   const { width } = Dimensions.get('window');
 
@@ -40,7 +41,9 @@ const BasicMiniMap = ({ latitude, longitude }: Props) => {
       onMapReady={() => setIsMapReady(true)}
       onPress={onDirectionButton}
     >
-      {isMapReady && <Marker coordinate={{ latitude, longitude }} />}
+      {isMapReady && (
+        <Marker coordinate={{ latitude, longitude }} pinColor={color} />
+      )}
     </MapView>
   );
 };

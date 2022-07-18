@@ -111,6 +111,7 @@ const InfoScreen = ({ navigation, route }: Props) => {
             longitude={parseFloat(
               gasStationData[PetrolDataKeys.long].replace(',', '.')
             )}
+            color={gasStationData.color}
           />
         </View>
       </ScrollView>
