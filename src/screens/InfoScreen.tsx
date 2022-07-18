@@ -10,6 +10,7 @@ interface Props extends StackScreenProps<RootStackParams, 'InfoScreen'> {}
 
 const InfoScreen = ({ navigation, route }: Props) => {
   const gasStationData = route.params;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: gasStationData[PetrolDataKeys.sign],

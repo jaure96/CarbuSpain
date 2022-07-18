@@ -78,7 +78,6 @@ const PermissionsProvider = memo(({ children }: Props) => {
     } else {
       permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
     }
-    console.log(permissionStatus);
     setPermissions({
       ...permissions,
       locationStatus: permissionStatus,

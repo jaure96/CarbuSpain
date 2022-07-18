@@ -11,8 +11,6 @@ const Navigator = () => {
     permissions: { locationStatus },
   } = useContext(PermissionsContext);
 
-  console.log({ locationStatus, locationEnabled });
-
   return (
     <Stack.Navigator
       screenOptions={{
