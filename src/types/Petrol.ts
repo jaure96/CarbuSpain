@@ -39,20 +39,5 @@ export interface GasStationData {
 }
 
 export interface Filters {
-  [key: string]: number;
-  /* radio: number;
-  price_biodiesel: number;
-  price_bioetanol: number;
-  price_compressed_natural_gas: number;
-  price_liquefied_natural_gas: number;
-  price_liquefied_petroleum_gas: number;
-  price_gasoil_a: number;
-  price_gasoil_b: number;
-  price_gasoil_premiun: number;
-  price_gasoil_95_e10: number;
-  price_gasoil_95_e5: number;
-  price_gasoil_95_e5_premiun: number;
-  price_gasoil_98_e10: number;
-  price_gasoil_98_e5: number;
-  price_hydrogen: number; */
+  [key: string]: number | string;
 }

@@ -35,7 +35,7 @@ const SettingsScreen = () => {
                 }
                 minVal={1}
                 maxVal={100}
-                values={[filters.radio]}
+                values={[filters.radio as number]}
                 valueSuffix={'km'}
                 disableScroll={() => setScrollEnabled(false)}
                 enableScroll={() => setScrollEnabled(true)}
@@ -46,85 +46,91 @@ const SettingsScreen = () => {
             <Text style={styles.filterBlockTitle}>Carburantes</Text>
             <View style={styles.filter}>
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_a}
+                defaultPriceLimit={filters.price_gasoil_a as number}
                 filterKey={'price_gasoil_a'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasoleo A"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_b}
+                defaultPriceLimit={filters.price_gasoil_b as number}
                 filterKey={'price_gasoil_b'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasoleo B"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_premiun}
+                defaultPriceLimit={filters.price_gasoil_premiun as number}
                 filterKey={'price_gasoil_premiun'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasoleo Premium"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_95_e10}
+                defaultPriceLimit={filters.price_gasoil_95_e10 as number}
                 filterKey={'price_gasoil_95_e10'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasolina 95 E10"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_95_e5}
+                defaultPriceLimit={filters.price_gasoil_95_e5 as number}
                 filterKey={'price_gasoil_95_e5'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasolina 95 E5"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_95_e5_premiun}
+                defaultPriceLimit={filters.price_gasoil_95_e5_premiun as number}
                 filterKey={'price_gasoil_95_e5_premiun'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasolina 95 E5 Premium"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_98_e10}
+                defaultPriceLimit={filters.price_gasoil_98_e10 as number}
                 filterKey={'price_gasoil_98_e10'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasolina 98 E10"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_gasoil_98_e5}
+                defaultPriceLimit={filters.price_gasoil_98_e5 as number}
                 filterKey={'price_gasoil_98_e5'}
                 onValueChange={handlePriceFilterChange}
                 label="Gasolina 98 E5"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_hydrogen}
+                defaultPriceLimit={filters.price_hydrogen as number}
                 filterKey={'price_hydrogen'}
                 onValueChange={handlePriceFilterChange}
                 label="Hidrogeno"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_liquefied_petroleum_gas}
+                defaultPriceLimit={
+                  filters.price_liquefied_petroleum_gas as number
+                }
                 filterKey={'price_liquefied_petroleum_gas'}
                 onValueChange={handlePriceFilterChange}
                 label="Gases licuados del petróleo"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_liquefied_natural_gas}
+                defaultPriceLimit={
+                  filters.price_liquefied_natural_gas as number
+                }
                 filterKey={'price_liquefied_natural_gas'}
                 onValueChange={handlePriceFilterChange}
                 label="Gas Natural Licuado"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_compressed_natural_gas}
+                defaultPriceLimit={
+                  filters.price_compressed_natural_gas as number
+                }
                 filterKey={'price_compressed_natural_gas'}
                 onValueChange={handlePriceFilterChange}
                 label="Gas Natural Comprimido"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_biodiesel}
+                defaultPriceLimit={filters.price_biodiesel as number}
                 filterKey={'price_biodiesel'}
                 onValueChange={handlePriceFilterChange}
                 label="Biodiesel"
               />
               <PetrolFilter
-                defaultPriceLimit={filters.price_bioetanol}
+                defaultPriceLimit={filters.price_bioetanol as number}
                 filterKey={'price_bioetanol'}
                 onValueChange={handlePriceFilterChange}
                 label="Bioetanol"

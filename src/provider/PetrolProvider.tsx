@@ -21,6 +21,7 @@ const initialData: GasStationData = {
 
 const defaultFilters: Filters = {
   radio: 10,
+  favPetrol: PetrolDataKeys.price_gasoil_a,
   price_biodiesel: 3,
   price_bioetanol: 3,
   price_compressed_natural_gas: 3,
@@ -60,7 +61,10 @@ const PetrolProvider = memo(({ children }: Props) => {
       const savedFilters = result.reduce<any>((acc, val) => {
         if (val[1] != null) {
           const filterKey = val[0].replace('@filters_', '');
-          const filterVal = parseFloat(val[1]);
+          let filterVal: string | number = parseFloat(val[1]);
+          if (isNaN(filterVal)) {
+            filterVal = val[1];
+          }
           acc[filterKey] = filterVal;
         }
         return acc;
@@ -109,7 +113,7 @@ const PetrolProvider = memo(({ children }: Props) => {
           latitude: parseFloat(f[PetrolDataKeys.lat].replace(',', '.')),
           longitude: parseFloat(f[PetrolDataKeys.long].replace(',', '.')),
         },
-        filters.radio
+        filters.radio as number
       );
       const p = priceFilter(f, filters);
       return r && p;
