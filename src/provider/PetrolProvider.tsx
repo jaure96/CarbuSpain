@@ -7,6 +7,7 @@ import useLocation from '../hooks/useLocation';
 import { Filters, GasStationData, PetrolDataKeys } from '../types/Petrol';
 import ReqStatus from '../types/ReqStatus';
 import { raidusFilter, priceFilter } from '../utils/filters';
+import Location from '../types/Location';
 
 const favKey = PetrolDataKeys.price_gasoil_a;
 
@@ -39,12 +40,13 @@ const defaultFilters: Filters = {
 };
 
 const PetrolProvider = memo(({ children }: Props) => {
+  const { getCurrentLocation, initialPosition } = useLocation();
   const [status, setStatus] = useState<ReqStatus>(ReqStatus.pending);
   const [allData, setAllData] = useState<GasStationData>(initialData);
   const [filteredData, setFilteredData] = useState<GasStationData>(initialData);
-  const filtersFetched = useRef(false);
+  const [filtersFetched, setFiltersFetched] = useState(false);
   const [filters, setFilters] = useState<Filters>(defaultFilters);
-  const { hasLocation, initialPosition } = useLocation();
+  const [location, setLocation] = useState<Location>(initialPosition);
 
   const saveFilters = useCallback(async (fltrs: Filters) => {
     try {
@@ -70,7 +72,10 @@ const PetrolProvider = memo(({ children }: Props) => {
         return acc;
       }, {});
       setFilters((prev) => ({ ...prev, ...savedFilters }));
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setFiltersFetched(true);
+    }
   }, []);
 
   const handleSetFilters = useCallback((fltrs: Filters) => {
@@ -81,6 +86,8 @@ const PetrolProvider = memo(({ children }: Props) => {
   const retrieveData = useCallback(async () => {
     try {
       setStatus(ReqStatus.pending);
+      const cLoc = await getCurrentLocation();
+      setLocation(cLoc);
       const resp = await api.get<GasStationData>('/');
       setAllData(resp.data);
       setStatus(ReqStatus.fulfilled);
@@ -91,24 +98,12 @@ const PetrolProvider = memo(({ children }: Props) => {
 
   useEffect(() => {
     getFilters();
-    filtersFetched.current = true;
   }, []);
-
-  useEffect(() => {
-    if (
-      hasLocation &&
-      initialPosition.latitude !== 0 &&
-      initialPosition.longitude !== 0 &&
-      filtersFetched.current
-    ) {
-      retrieveData();
-    }
-  }, [hasLocation, initialPosition, retrieveData]);
 
   useEffect(() => {
     const filtered = allData.ListaEESSPrecio.filter((f) => {
       const r = raidusFilter(
-        initialPosition,
+        location,
         {
           latitude: parseFloat(f[PetrolDataKeys.lat].replace(',', '.')),
           longitude: parseFloat(f[PetrolDataKeys.long].replace(',', '.')),
@@ -136,7 +131,7 @@ const PetrolProvider = memo(({ children }: Props) => {
       }));
 
     setFilteredData({ ...allData, ListaEESSPrecio: filteredPalette });
-  }, [filters, allData]);
+  }, [filters, allData, location]);
 
   return (
     <PetrolContext.Provider
@@ -146,6 +141,8 @@ const PetrolProvider = memo(({ children }: Props) => {
         status,
         filters,
         setFilters: handleSetFilters,
+        retrieveData,
+        filtersFetched,
       }}
     >
       {children}

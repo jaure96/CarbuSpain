@@ -49,6 +49,8 @@ const PermissionsProvider = memo(({ children }: Props) => {
     if (permissionStatus === 'blocked') {
       openSettings();
     }
+    if (permissionStatus === 'granted') {
+    }
 
     setPermissions({
       ...permissions,

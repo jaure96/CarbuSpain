@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SettingsScreen from '../screens/SettingsScreen';
 import { StyleSheet } from 'react-native';
 import StackNavigator from './StackNavigator';
+import PetrolContext from '../context/PetrolContext';
+import ReqStatus from '../types/ReqStatus';
+import LoadingScreen from '../screens/LoadingScreen';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const { retrieveData, filtersFetched, status } = useContext(PetrolContext);
+
+  useEffect(() => {
+    if (filtersFetched) {
+      retrieveData();
+    }
+  }, [filtersFetched]);
+
+  if (status === ReqStatus.pending) {
+    return <LoadingScreen />;
+  }
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
